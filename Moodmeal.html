@@ -1,0 +1,2269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoodMeal - Makanan untuk Mood Anda</title>
+    <style>
+        :root {
+            --primary-color: #FF6B6B;
+            --secondary-color: #4ECDC4;
+            --accent-color: #FFE66D;
+            --dark-color: #292F36;
+            --light-color: #F7FFF7;
+            --happy-color: #FFD166;
+            --sad-color: #6A8EAE;
+            --stressed-color: #06D6A0;
+            --tired-color: #118AB2;
+            --excited-color: #EF476F;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--light-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            opacity: 0.8;
+        }
+
+        .auth-buttons button {
+            background-color: white;
+            color: var(--primary-color);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .auth-buttons button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .cta-button {
+            background-color: var(--accent-color);
+            color: var(--dark-color);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* Tambahkan di CSS */
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+
+        #search-input {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px 0 0 20px;
+            outline: none;
+            width: 200px;
+        }
+
+        #search-btn {
+            background-color: white;
+            color: var(--primary-color);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 0 20px 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #search-btn:hover {
+            background-color: var(--accent-color);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 36px;
+            color: var(--dark-color);
+        }
+
+        .mood-options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .mood-option {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            width: 200px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .mood-option:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .mood-option i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .mood-option.happy {
+            border-top: 5px solid var(--happy-color);
+        }
+
+        .mood-option.sad {
+            border-top: 5px solid var(--sad-color);
+        }
+
+        .mood-option.stressed {
+            border-top: 5px solid var(--stressed-color);
+        }
+
+        .mood-option.tired {
+            border-top: 5px solid var(--tired-color);
+        }
+
+        .mood-option.excited {
+            border-top: 5px solid var(--excited-color);
+        }
+
+        .food-categories {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .food-category {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background-color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .food-category.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .food-category:hover {
+            transform: translateY(-3px);
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .food-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .food-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .food-image {
+            height: 200px;
+            background-color: #eee;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .food-content {
+            padding: 20px;
+        }
+
+        .food-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+
+        .food-origin {
+            color: #777;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .food-nutrition {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .food-nutrition span {
+            background-color: #f5f5f5;
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+
+        .food-description {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .food-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .food-actions button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .food-actions button:hover {
+            opacity: 0.8;
+        }
+
+        .effectiveness {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .effectiveness.A {
+            background-color: #FFEEEE;
+            color: #FF6B6B;
+        }
+
+        .effectiveness.B {
+            background-color: #EEF7FF;
+            color: #4A90E2;
+        }
+
+        .effectiveness.C {
+            background-color: #F0FFF0;
+            color: #4CAF50;
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: white;
+        }
+
+        .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+        }
+
+        .modal-title {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        .form-submit {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .form-submit:hover {
+            opacity: 0.9;
+        }
+
+        .form-footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .form-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* User profile styles */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #eee;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: var(--primary-color);
+        }
+
+        .profile-info h2 {
+            margin-bottom: 5px;
+        }
+
+        .profile-info p {
+            color: #777;
+        }
+
+        .profile-stats {
+            display: flex;
+            margin-bottom: 30px;
+        }
+
+        .stat-item {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            margin: 0 10px;
+        }
+
+        .stat-item:first-child {
+            margin-left: 0;
+        }
+
+        .stat-item:last-child {
+            margin-right: 0;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #777;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+
+                header {
+                    position: sticky;
+                    /* Pastikan tetap sticky di mobile */
+                }
+
+                body {
+                    padding-top: 60px;
+                    /* Sesuaikan untuk mobile */
+                }
+            }
+
+            nav ul {
+                margin-top: 20px;
+                justify-content: center;
+            }
+
+            .auth-buttons {
+                margin-top: 20px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .mood-options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .mood-option {
+                width: 80%;
+            }
+
+            .food-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-stats {
+                flex-direction: column;
+            }
+
+            .stat-item {
+                margin: 10px 0;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-utensils"></i>
+                    MoodMeal
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#mood">Deteksi Mood</a></li>
+                        <li><a href="#food">Rekomendasi</a></li>
+                        <li><a href="#about">Tentang</a></li>
+                    </ul>
+                </nav>
+                <!-- Tambahkan di header-content, setelah nav -->
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Cari makanan...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+
+                <div class="auth-buttons">
+                    <button id="login-btn">Login</button>
+                    <button id="register-btn">Register</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Makanan yang Cocok dengan Mood Anda</h1>
+            <p>Temukan rekomendasi makanan dan minuman berdasarkan kondisi emosional Anda untuk meningkatkan
+                kesejahteraan mental dan fisik.</p>
+            <button class="cta-button" id="detect-mood-btn">Deteksi Mood Sekarang</button>
+
+        </div>
+    </section>
+
+    <!-- Mood Detection Section -->
+    <section class="section" id="mood">
+        <div class="container">
+            <h2 class="section-title">Bagaimana Perasaan Anda Hari Ini?</h2>
+            <div class="mood-options">
+                <div class="mood-option happy" data-mood="happy">
+                    <i class="fas fa-smile"></i>
+                    <h3>Happy</h3>
+                    <p>Senang dan bahagia</p>
+                </div>
+                <div class="mood-option sad" data-mood="sad">
+                    <i class="fas fa-sad-tear"></i>
+                    <h3>Sad</h3>
+                    <p>Sedih atau murung</p>
+                </div>
+                <div class="mood-option stressed" data-mood="stressed">
+                    <i class="fas fa-stress"></i>
+                    <h3>Stressed</h3>
+                    <p>Tertekan atau stres</p>
+                </div>
+                <div class="mood-option tired" data-mood="tired">
+                    <i class="fas fa-tired"></i>
+                    <h3>Tired</h3>
+                    <p>Lelah atau kurang energi</p>
+                </div>
+                <div class="mood-option excited" data-mood="excited">
+                    <i class="fas fa-grin-stars"></i>
+                    <h3>Excited</h3>
+                    <p>Bersemangat atau terlalu aktif</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Food Recommendations Section -->
+    <section class="section" id="food">
+        <div class="container">
+            <h2 class="section-title">Rekomendasi Makanan</h2>
+            <div class="food-categories">
+                <div class="food-category active" data-category="all">Semua</div>
+                <div class="food-category" data-category="heavy">Makanan Berat</div>
+                <div class="food-category" data-category="snack">Makanan Ringan</div>
+                <div class="food-category" data-category="drink">Minuman</div>
+            </div>
+            <div class="food-grid" id="food-grid">
+                <!-- Food cards will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <h2 class="section-title">Tentang MoodMeal</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 40px;">
+                MoodMeal adalah aplikasi yang menghubungkan makanan dengan kondisi emosional Anda.
+                Berdasarkan penelitian ilmiah, kami merekomendasikan makanan yang dapat membantu
+                meningkatkan mood Anda atau menstabilkan emosi.
+            </p>
+            <div class="food-grid">
+                <div class="food-card">
+                    <div class="food-image" style="background-image: url('Salmonpanggang.jpg');">
+                    </div>
+                    <div class="food-content">
+                        <span class="effectiveness A">Kategori A</span>
+                        <h3 class="food-title">Salmon Panggang</h3>
+                        <p class="food-origin">Norwegia</p>
+                        <div class="food-nutrition">
+                            <span>350 kalori</span>
+                            <span>30g protein</span>
+                            <span>20g lemak</span>
+                        </div>
+                        <p class="food-description">Omega-3 EPA/DHA meningkatkan produksi serotonin dan mengurangi
+                            inflamasi otak.</p>
+                        <div class="food-actions">
+                            <button>Lihat Detail</button>
+                            <button><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <div class="food-image" style="background-image: url('tehmatcha.jpg');">
+                    </div>
+                    <div class="food-content">
+                        <span class="effectiveness B">Kategori B</span>
+                        <h3 class="food-title">Teh Hijau Matcha</h3>
+                        <p class="food-origin">Jepang</p>
+                        <div class="food-nutrition">
+                            <span>30 kalori</span>
+                            <span>1g protein</span>
+                            <span>0g lemak</span>
+                        </div>
+                        <p class="food-description">L-theanin meningkatkan gelombang alpha otak untuk relaksasi fokus.
+                        </p>
+                        <div class="food-actions">
+                            <button>Lihat Detail</button>
+                            <button><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <div class="food-image"
+                        style="background-image: url('https://images.unsplash.com/photo-1505576399279-565b52d4ac71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');">
+                    </div>
+                    <div class="food-content">
+                        <span class="effectiveness C">Kategori C</span>
+                        <h3 class="food-title">Smoothie Pisang-Berry</h3>
+                        <p class="food-origin">Internasional</p>
+                        <div class="food-nutrition">
+                            <span>200 kalori</span>
+                            <span>5g protein</span>
+                            <span>2g lemak</span>
+                        </div>
+                        <p class="food-description">Kombinasi triptofan dan antioksidan untuk mood positif.</p>
+                        <div class="food-actions">
+                            <button>Lihat Detail</button>
+                            <button><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Tentang Kami</h3>
+                    <p>MoodMeal membantu Anda menemukan makanan yang tepat berdasarkan kondisi emosional Anda.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Link Cepat</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#mood">Deteksi Mood</a></li>
+                        <li><a href="#food">Rekomendasi</a></li>
+                        <li><a href="#about">Tentang</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Kontak</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@moodmeal.com</li>
+                        <li><i class="fas fa-phone"></i> +62 123 4567 890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Jakarta, Indonesia</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 MoodMeal. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title">Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="form-submit">Login</button>
+                <div class="form-footer">
+                    Belum punya akun? <a href="#" id="show-register">Daftar disini</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="register-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title">Register</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-username">Username</label>
+                    <input type="text" id="register-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password (min 8 karakter)</label>
+                    <input type="password" id="register-password" minlength="8" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm">Konfirmasi Password</label>
+                    <input type="password" id="register-confirm" required>
+                </div>
+                <button type="submit" class="form-submit">Daftar</button>
+                <div class="form-footer">
+                    Sudah punya akun? <a href="#" id="show-login">Login disini</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Profile Modal -->
+    <div class="modal" id="profile-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title">Profil Saya</h2>
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="profile-info">
+                    <h2 id="profile-username">Username</h2>
+                    <p id="profile-email">user@example.com</p>
+                </div>
+            </div>
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="favorites-count">0</div>
+                    <div class="stat-label">Favorit</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="mood-count">0</div>
+                    <div class="stat-label">Mood Terdeteksi</div>
+                </div>
+            </div>
+            <h3 style="margin-bottom: 15px;">Makanan Favorit</h3>
+            <div class="food-grid" id="favorites-grid">
+                <!-- Favorite foods will be inserted here -->
+            </div>
+            <button class="form-submit" style="margin-top: 20px;" id="logout-btn">Logout</button>
+        </div>
+    </div>
+
+    <!-- Food Detail Modal -->
+    <div class="modal" id="food-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="food-image" id="detail-food-image" style="height: 250px; margin-bottom: 20px;"></div>
+            <span class="effectiveness A" id="detail-effectiveness">Kategori A</span>
+            <h2 class="modal-title" id="detail-food-title">Food Title</h2>
+            <p class="food-origin" id="detail-food-origin">Origin</p>
+            <div class="food-nutrition" style="margin: 20px 0;">
+                <span id="detail-calories">0 kalori</span>
+                <span id="detail-protein">0g protein</span>
+                <span id="detail-fat">0g lemak</span>
+            </div>
+            <h3 style="margin: 20px 0 10px;">Bahan-bahan</h3>
+            <ul id="detail-ingredients" style="margin-bottom: 20px; padding-left: 20px;">
+                <!-- Ingredients will be inserted here -->
+            </ul>
+            <h3 style="margin: 20px 0 10px;">Fakta Ilmiah</h3>
+            <p id="detail-scientific" style="margin-bottom: 20px;">Scientific fact goes here</p>
+            <div class="food-actions" style="justify-content: center;">
+                <button id="add-favorite-btn" style="padding: 10px 20px;"><i class="far fa-heart"></i> Tambah
+                    Favorit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data - in a real app, this would come from an API
+        const foods = [
+            {
+                id: 1,
+                name: "Salmon Panggang",
+                origin: "Norwegia",
+                category: "heavy",
+                effectiveness: "A",
+                ingredients: ["Salmon", "Lemon", "Dill", "Minyak Zaitun"],
+                calories: 350,
+                protein: 30,
+                fat: 20,
+                scientificFact: "Omega-3 EPA/DHA meningkatkan produksi serotonin dan mengurangi inflamasi otak (Studi: Molecular Psychiatry 2016)",
+                image: "Aset/Salmonpanggang.jpg"
+            },
+            {
+                id: 2,
+                name: "Dark Chocolate (70%)",
+                origin: "Belgia",
+                category: "snack",
+                effectiveness: "A",
+                ingredients: ["Kakao", "Gula", "Lemak Kakao"],
+                calories: 150,
+                protein: 2,
+                fat: 12,
+                scientificFact: "Flavonoid meningkatkan aliran darah ke otak dan mengurangi kortisol (Studi: Journal of Psychopharmacology 2013)",
+                image: "Aset/coklat.jpeg"
+            },
+            {
+                id: 3,
+                name: "Quinoa Bowl",
+                origin: "Peru",
+                category: "heavy",
+                effectiveness: "B",
+                ingredients: ["Quinoa", "Alpukat", "Tomat", "Kacang"],
+                calories: 400,
+                protein: 15,
+                fat: 18,
+                scientificFact: "Mengandung semua asam amino esensial untuk neurotransmitter (Studi: Frontiers in Neuroscience 2018)",
+                image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 4,
+                name: "Teh Hijau Matcha",
+                origin: "Jepang",
+                category: "drink",
+                effectiveness: "B",
+                ingredients: ["Matcha", "Air"],
+                calories: 30,
+                protein: 1,
+                fat: 0,
+                scientificFact: "L-theanin meningkatkan gelombang alpha otak untuk relaksasi fokus (Studi: Nutrients 2021)",
+                image: "Aset/tehmatcha.jpg"
+            },
+            {
+                id: 5,
+                name: "Stroberi Segar",
+                origin: "California",
+                category: "snack",
+                effectiveness: "C",
+                ingredients: ["Stroberi"],
+                calories: 50,
+                protein: 1,
+                fat: 0,
+                scientificFact: "Anthocyanin meningkatkan dopamin dan melindungi neuron (Studi: Nutrients 2017)",
+                image: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 6,
+                name: "Smoothie Pisang-Berry",
+                origin: "Internasional",
+                category: "drink",
+                effectiveness: "C",
+                ingredients: ["Pisang", "Berry", "Yogurt"],
+                calories: 200,
+                protein: 5,
+                fat: 2,
+                scientificFact: "Kombinasi triptofan dan antioksidan untuk mood positif (Studi: PLOS ONE 2012)",
+                image: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+            },
+
+            {
+                id: 7,
+                name: "Salmon Teriyaki",
+                origin: "Jepang",
+                category: "heavy",
+                effectiveness: "A",
+                ingredients: ["Ikan Salmon", "Kecap Asin", "Jahe", "Madu", "Bawang Putih"],
+                calories: 500,
+                protein: 34,
+                fat: 20,
+                scientificFact: "Kaya akan omega-3 yang meningkatkan produksi serotonin dan dopamin (Studi: Nutritional Neuroscience 2016)",
+                image: "Aset/salmonteriyaki.jpg"
+            },
+
+            {
+                id: 8,
+                name: "Nasi Merah Ayam Panggang",
+                origin: "Indonesia",
+                category: "heavy",
+                effectiveness: "B",
+                ingredients: ["Nasi Merah", "Dada Ayam", "Brokoli", "Madu", "Minyak Zaitun", "Rempah-rempah"],
+                calories: 520,
+                protein: 28,
+                fat: 14,
+                scientificFact: "Karbohidrat kompleks dan protein seimbang membantu menjaga kestabilan gula darah dan mood (Studi: Journal of Affective Disorders 2015)",
+                image: "Aset/nasimerahayampanggang.jpeg"
+            },
+
+            {
+                id: 9,
+                name: "Pasta Whole Wheat dengan Saus Tomat & Kacang",
+                origin: "Italia",
+                category: "heavy",
+                effectiveness: "B",
+                ingredients: ["Pasta Gandum", "Saus Tomat", "Kacang Merah", "Basil", "Keju Parmesan"],
+                calories: 520,
+                protein: 28,
+                fat: 14,
+                scientificFact: "Tomat kaya akan likopen dan whole wheat mengandung serat tinggi yang berdampak positif terhadap mikrobiota usus dan mood (Studi: Molecular Psychiatry 2019)",
+                image: "Aset/pastakacang.jpeg"
+            },
+
+            {
+                id: 10,
+                name: "Greek Yogurt dengan Madu ",
+                origin: "Yunani",
+                category: "snack",
+                effectiveness: "B",
+                ingredients: ["Yogurt Greek", "Madu Alami"],
+                calories: 120,
+                protein: 10,
+                fat: 4,
+                scientificFact: " Probiotik dalam yogurt mendukung mikrobiota usus yang berperan dalam kestabilan mood (Studi: Brain, Behavior, and Immunity 2016)",
+                image: "Aset/greekyogurt.jpg"
+            },
+
+            {
+                id: 11,
+                name: "Edamame Rebus",
+                origin: "Jepang",
+                category: "snack",
+                effectiveness: "B",
+                ingredients: ["Kacang Edamame", "Garam Laut"],
+                calories: 120,
+                protein: 11,
+                fat: 5,
+                scientificFact: " Kaya triptofan dan magnesium yang mendukung produksi serotonin (Studi: Nutrients 2018)",
+                image: "Aset/edamamerebus.jpg"
+            },
+
+            {
+                id: 12,
+                name: "Kacang Almond Panggang",
+                origin: "Timur Tengah",
+                category: "snack",
+                effectiveness: "B",
+                ingredients: ["Kacang Almond", "Garam Himalaya"],
+                calories: 160,
+                protein: 6,
+                fat: 14,
+                scientificFact: "Mengandung magnesium dan vitamin E yang berperan dalam pengaturan stres dan kesehatan otak (Studi: Journal of Research in Medical Sciences 2012)",
+                image: "Aset/almondpanggang.jpg"
+            },
+
+            {
+                id: 13,
+                name: "Susu Kunyit",
+                origin: "India",
+                category: "drink",
+                effectiveness: "B",
+                ingredients: ["Susu", "Kunyit", "Jahe", "Madu"],
+                calories: 150,
+                protein: 6,
+                fat: 7,
+                scientificFact: "Kurkumin dalam kunyit memiliki efek antidepresan dan anti-inflamasi (Studi: Journal of Affective Disorders 2014)",
+                image: "Aset/susukunyit.webp"
+            },
+
+            {
+                id: 14,
+                name: "Jus Jeruk Segar",
+                origin: "Indonesia",
+                category: "drink",
+                effectiveness: "A",
+                ingredients: ["Jeruk Manis", "Es Batu"],
+                calories: 110,
+                protein: 2,
+                fat: 0,
+                scientificFact: "Vitamin C membantu mengurangi kadar kortisol dan meningkatkan mood (Studi: Psychopharmacology 2002)",
+                image: ""
+            },
+
+            {
+                id: 15,
+                name: "Jus Mangga-Kelapa",
+                origin: "Asia Tenggara",
+                category: "drink",
+                effectiveness: "B",
+                ingredients: ["Mangga Matang", "Air Kelapa Murni", "Es Batu"],
+                calories: 160,
+                protein: 2,
+                fat: 4,
+                scientificFact: "Mangga mengandung vitamin B6 dan glutamin yang mendukung fungsi otak, sementara air kelapa membantu hidrasi yang berpengaruh pada kestabilan emosi (Studi: Journal of Food Science and Technology 2016)",
+                image: ""
+            },
+
+            {
+                id: 16,
+                name: "Mashed Potato",
+                origin: "Irlandia",
+                category: "heavy",
+                effectiveness: "B",
+                ingredients: ["Kentang", "Susu", "Mentega"],
+                calories: 250,
+                protein: 5,
+                fat: 12,
+                scientificFact: "Karbohidrat kompleks meningkatkan tryptophan untuk serotonin (Studi: Archives of Internal Medicine 2009)",
+                image: ""
+            },
+
+            {
+                id: 17,
+                name: "Sup Ayam Hangat",
+                origin: "Internasional",
+                category: "heavy",
+                effectiveness: "A",
+                ingredients: ["Kentang", "Susu", "Mentega"],
+                calories: 300,
+                protein: 25,
+                fat: 10,
+                scientificFact: " Karnosin dan kolagen mengurangi gejala depresi (Studi: Journal of Affective Disorders 2015)",
+                image: ""
+            },
+
+            {
+                id: 18,
+                name: "Nasi Uduk Tempe Orek",
+                origin: "Indonesia",
+                category: "heavy",
+                effectiveness: "B",
+                ingredients: ["Nasi Uduk", "Tempe", "Kecap Manis", "Daun Salam"],
+                calories: 500,
+                protein: 12,
+                fat: 20,
+                scientificFact: " Tempe mengandung probiotik alami dan vitamin B6 yang penting dalam regulasi suasana hati (Studi: Psychiatry Research 2015)",
+                image: ""
+            },
+
+            {
+                id: 19,
+                name: "Mac and Cheese",
+                origin: "Amerika",
+                category: "heavy",
+                effectiveness: "B",
+                ingredients: ["Pasta", "Keju Cheddar", "Susu", "Mentega"],
+                calories: 480,
+                protein: 12,
+                fat: 22,
+                scientificFact: " Makanan creamy dan hangat dapat memberikan efek comfort melalui sistem limbik otak (Studi: Appetite Journal 2011)",
+                image: ""
+            },
+
+            {
+                id: 20,
+                name: "Bubur Ayam",
+                origin: "Indonesia",
+                category: "heavy",
+                effectiveness: "B",
+                ingredients: ["Pasta", "Keju Cheddar", "Susu", "Mentega"],
+                calories: 350,
+                protein: 15,
+                fat: 10,
+                scientificFact: "Tekstur lembut dan hangat memberikan efek menenangkan serta mudah dicerna saat sedang lelah emosional (Studi: Frontiers in Psychology 2018)",
+                image: ""
+            },
+
+            {
+                id: 21,
+                name: "Bubur Ayam",
+                origin: "Indonesia",
+                category: "heavy",
+                effectiveness: "B",
+                ingredients: ["Kaldu Ayam", "Daging Ayam Suwir", "Daun Bawang", "Kecap"],
+                calories: 350,
+                protein: 15,
+                fat: 10,
+                scientificFact: "Tekstur lembut dan hangat memberikan efek menenangkan serta mudah dicerna saat sedang lelah emosional (Studi: Frontiers in Psychology 2018)",
+                image: ""
+            },
+
+            {
+                id: 22,
+                name: "Yogurt Probiotik",
+                origin: "Internasional",
+                category: "snack",
+                effectiveness: "C",
+                ingredients: ["Susu", "Bakteri Probiotik"],
+                calories: 120,
+                protein: 6,
+                fat: 3,
+                scientificFact: "Mikrobioma usus mempengaruhi produksi serotonin (Studi: Gastroenterology 2013)",
+                image: ""
+            },
+
+            {
+                id: 23,
+                name: "Kacang Mete Panggang",
+                origin: "Brazil",
+                category: "snack",
+                effectiveness: "B",
+                ingredients: ["Kacang Mete"],
+                calories: 160,
+                protein: 5,
+                fat: 13,
+                scientificFact: "Kaya zinc dan magnesium untuk regulasi mood (Studi: Nutrients 2018)",
+                image: ""
+            },
+
+            {
+                id: 24,
+                name: "Oat Bar dengan Madu",
+                origin: "Kanada",
+                category: "snack",
+                effectiveness: "C",
+                ingredients: ["Oat", "Madu", "Kacang Almond", "Kismis"],
+                calories: 150,
+                protein: 4,
+                fat: 5,
+                scientificFact: " Karbohidrat kompleks dalam oat membantu kestabilan gula darah dan mood (Studi: Appetite Journal 2014)",
+                image: ""
+            },
+
+            {
+                id: 25,
+                name: " Popcorn Panggang dengan Minyak Zaitun",
+                origin: "Amerika",
+                category: "snack",
+                effectiveness: "A",
+                ingredients: ["Jagung Popcorn", "Minyak Zaitun", "Garam Laut"],
+                calories: 130,
+                protein: 3,
+                fat: 6,
+                scientificFact: "Serat tinggi dari popcorn membantu kestabilan gula darah, minyak zaitun kaya antioksidan yang mendukung otak (Studi: Nutritional Neuroscience 2017)",
+                image: ""
+            },
+
+            {
+                id: 26,
+                name: "Buah Kurma",
+                origin: "Timur Tengah",
+                category: "snack",
+                effectiveness: "A",
+                ingredients: ["Kurma Kering"],
+                calories: 150,
+                protein: 1,
+                fat: 0,
+                scientificFact: "Kurma kaya magnesium dan vitamin B6 yang berperan penting dalam produksi neurotransmitter mood baik (Studi: Journal of Food Science and Technology 2015)",
+                image: ""
+            },
+
+            {
+                id: 27,
+                name: "Kunyit Latte ",
+                origin: "India",
+                category: "drink",
+                effectiveness: "A",
+                ingredients: ["Kunyit", "Susu", "Lada Hitam"],
+                calories: 150,
+                protein: 4,
+                fat: 6,
+                scientificFact: "Kurkumin meningkatkan BDNF seperti antidepresan alami (Studi: Journal of Affective Disorders 2014)",
+                image: ""
+            },
+
+            {
+                id: 28,
+                name: "Cokelat Panas",
+                origin: "Meksiko",
+                category: "drink",
+                effectiveness: "C",
+                ingredients: ["Cokelat", "Susu"],
+                calories: 180,
+                protein: 5,
+                fat: 8,
+                scientificFact: " Feniletilamin merangsang pelepasan endorfin (Studi: Journal of Psychopharmacology 2013)",
+                image: ""
+            },
+
+            {
+                id: 29,
+                name: "Sari Kedelai Hangat",
+                origin: "Tiongkok",
+                category: "drink",
+                effectiveness: "B",
+                ingredients: ["Kedelai", "Air"],
+                calories: 100,
+                protein: 7,
+                fat: 4,
+                scientificFact: "Isoflavon dalam kedelai dapat menstabilkan mood dan mengurangi gejala depresi ringan (Studi: Journal of Nutrition 2015)",
+                image: ""
+            },
+
+            {
+                id: 30,
+                name: "Bajigur ",
+                origin: "Jawa Barat, Indonesia",
+                category: "drink",
+                effectiveness: "B",
+                ingredients: ["Santan", "Gula Aren", "Jahe", "Rempah-rempah"],
+                calories: 150,
+                protein: 3,
+                fat: 6,
+                scientificFact: " Santan mengandung lemak sehat yang meningkatkan produksi serotonin, membantu mood lebih baik (Studi: Journal of Nutritional Biochemistry 2018)",
+                image: "Aset/bajigur.jpg"
+            },
+
+            {
+                id: 31,
+                name: "Es Cincau Hitam",
+                origin: "Indonesia",
+                category: "drink",
+                effectiveness: "B",
+                ingredients: ["Daun Cincau Hitam", "Air", "Gula Merah"],
+                calories: 80,
+                protein: 0,
+                fat: 0,
+                scientificFact: "Cincau mengandung antioksidan yang membantu mengurangi kecemasan dan menenangkan pikiran (Studi: Journal of Food Science 2012)",
+                image: "Aset/cincau.jpg"
+            },
+
+            {
+                id: 32,
+                name: "Salad Alpukat",
+                origin: "Meksiko",
+                category: "heavy",
+                effectiveness: "B",
+                ingredients: ["Alpukat", "Sayuran", "Minyak Zaitun"],
+                calories: 320,
+                protein: 4,
+                fat: 25,
+                scientificFact: "Lemak sehat dan magnesium mendukung fungsi saraf (Studi: Nutrients 2020)",
+                image: ""
+            },
+
+            {
+                id: 33,
+                name: "Oatmeal Pisang ",
+                origin: "Skotlandia",
+                category: "heavy",
+                effectiveness: "B",
+                ingredients: ["Oat", "Susu", "Pisang"],
+                calories: 280,
+                protein: 8,
+                fat: 5,
+                scientificFact: "Serat beta-glukan stabilkan gula darah dan kortisol (Studi: Journal of Nutrition 2015)",
+                image: ""
+            },
+
+            {
+                id: 34,
+                name: "Sup Miso dengan Tofu",
+                origin: "Jepang",
+                category: "heavy",
+                effectiveness: "A",
+                ingredients: ["Miso", "Tahu", "Rumput Laut", "Daun Bawang"],
+                calories: 180,
+                protein: 10,
+                fat: 6,
+                scientificFact: " Mengandung probiotik (misalnya Lactobacillus) yang mendukung keseimbangan mikrobiota usus, berhubungan dengan pengurangan stres dan kecemasan (Studi: Psychiatry Research 2016)",
+                image: ""
+            },
+
+            {
+                id: 35,
+                name: " Nasi Merah dengan Ikan Salmon",
+                origin: "Global",
+                category: "heavy",
+                effectiveness: "A",
+                ingredients: ["Nasi Merah", "Ikan Salmon", "Lemon", "Rempah"],
+                calories: 450,
+                protein: 28,
+                fat: 18,
+                scientificFact: "Asam lemak omega-3 dari salmon menurunkan respons peradangan akibat stres (Studi: Brain, Behavior, and Immunity 2013)",
+                image: ""
+            },
+
+            {
+                id: 36,
+                name: " Kari Kacang Merah (Rajma)",
+                origin: "India",
+                category: "heavy",
+                effectiveness: "B",
+                ingredients: ["Nasi Merah", "Ikan Salmon", "Lemon", "Rempah"],
+                calories: 390,
+                protein: 13,
+                fat: 10,
+                scientificFact: "Kacang merah kaya folat dan zat besi, yang penting untuk regulasi suasana hati dan energi (Studi: Nutrients 2019)",
+                image: ""
+            },
+
+            {
+                id: 37,
+                name: "Kacang Kenari",
+                origin: "Timur Tengah",
+                category: "snack",
+                effectiveness: "A",
+                ingredients: ["Kacang Kenari"],
+                calories: 185,
+                protein: 4,
+                fat: 18,
+                scientificFact: " Mengandung asam alfa-linolenat (ALA) yang mendukung fungsi otak dan mengurangi stres (Studi: Nutrients 2016)",
+                image: ""
+            },
+
+            {
+                id: 38,
+                name: "Buah Blueberry",
+                origin: "Amerika Utara",
+                category: "snack",
+                effectiveness: "B",
+                ingredients: ["Blueberry"],
+                calories: 185,
+                protein: 4,
+                fat: 18,
+                scientificFact: "Antioksidan antosianin melindungi otak dari stres oksidatif (Studi: Journal of Agricultural and Food Chemistry 2015)",
+                image: ""
+            },
+
+            {
+                id: 39,
+                name: "Teh Chamomile",
+                origin: "Mesir",
+                category: "drink",
+                effectiveness: "A",
+                ingredients: ["Chamomile", "Air"],
+                calories: 5,
+                protein: 0,
+                fat: 0,
+                scientificFact: "Apigenin mengikat reseptor GABA untuk efek relaksasi (Studi: Journal of Agricultural and Food Chemistry 2010)",
+                image: ""
+            },
+
+
+            {
+                id: 40,
+                name: "Susu Almond Hangat",
+                origin: "Timur Tengah",
+                category: "drink",
+                effectiveness: "C",
+                ingredients: ["Almond", "Air"],
+                calories: 60,
+                protein: 2,
+                fat: 5,
+                scientificFact: " Vitamin E melindungi dari stres oksidatif (Studi: Journal of Alzheimer's Disease 2017)",
+                image: ""
+            },
+
+            {
+                id: 41,
+                name: "Golden Milk",
+                origin: "India",
+                category: "drink",
+                effectiveness: "B",
+                ingredients: ["Kunyit", "Lada Hitam", "Kayu Manis"],
+                calories: 150,
+                protein: 3,
+                fat: 7,
+                scientificFact: "Kurkumin dalam kunyit memiliki efek anti-inflamasi dan meningkatkan mood (Studi: Journal of Affective Disorders 2014)",
+                image: ""
+            },
+
+            {
+                id: 42,
+                name: "Jus Ceri Tart",
+                origin: "India",
+                category: "drink",
+                effectiveness: "B",
+                ingredients: ["Ceri Tart", "Air"],
+                calories: 90,
+                protein: 1,
+                fat: 0,
+                scientificFact: "Mengandung melatonin alami yang mendukung kualitas tidur dan pemulihan stres (Studi: European Journal of Nutrition 2012)",
+                image: ""
+            },
+
+            {
+                id: 43,
+                name: "Nasi Merah + Telur",
+                origin: "Asia",
+                category: "heavy",
+                effectiveness: "B",
+                ingredients: ["Nasi Merah", "Telur"],
+                calories: 350,
+                protein: 15,
+                fat: 10,
+                scientificFact: "Karbohidrat kompleks dan kolin untuk energi berkelanjutan (Studi: American Journal of Clinical Nutrition 2017)",
+                image: ""
+            },
+
+            {
+                id: 44,
+                name: "Ubi Jalar Panggang",
+                origin: "Amerika",
+                category: "heavy",
+                effectiveness: "C",
+                ingredients: ["Ubi Jalar"],
+                calories: 180,
+                protein: 3,
+                fat: 0,
+                scientificFact: " Beta-karoten dan serat untuk energi stabil (Studi: Journal of Nutrition 2015)",
+                image: ""
+            },
+
+            {
+                id: 45,
+                name: "Sup Kacang Lentil",
+                origin: "Timur Tengah",
+                category: "heavy",
+                effectiveness: "A",
+                ingredients: ["Kacang Lentil", "Tomat", "Wortel", "Bawang"],
+                calories: 310,
+                protein: 18,
+                fat: 6,
+                scientificFact: "Zat besi dan protein nabati meningkatkan energi dan mengurangi kelelahan (Studi: Nutrients 2018)",
+                image: ""
+            },
+
+
+            {
+                id: 46,
+                name: " Pasta Gandum + Ayam Panggang ",
+                origin: "Italia",
+                category: "heavy",
+                effectiveness: "B",
+                ingredients: ["Pasta Gandum", "Dada Ayam", "Olive Oil"],
+                calories: 420,
+                protein: 28,
+                fat: 10,
+                scientificFact: "Karbohidrat kompleks + protein mendukung pelepasan energi berkelanjutan (Studi: British Journal of Nutrition 2016)",
+                image: ""
+            },
+
+            {
+                id: 47,
+                name: "Bubur Kacang Hijau",
+                origin: "Asia Tenggara",
+                category: "heavy",
+                effectiveness: "B",
+                ingredients: ["Pasta Gandum", "Dada Ayam", "Olive Oil"],
+                calories: 250,
+                protein: 9,
+                fat: 4,
+                scientificFact: "Kacang hijau mengandung vitamin B kompleks dan zat besi yang membantu produksi energi (Studi: Asia Pacific Journal of Clinical Nutrition 2014)",
+                image: ""
+            },
+
+            {
+                id: 48,
+                name: " Energy Bar",
+                origin: "Internasional",
+                category: "snack",
+                effectiveness: "C",
+                ingredients: ["Oat", "Madu", "Kacang"],
+                calories: 200,
+                protein: 7,
+                fat: 8,
+                scientificFact: "Kombinasi makronutrien untuk energi cepat (Studi: International Journal of Sport Nutrition 2018)",
+                image: ""
+            },
+
+            {
+                id: 49,
+                name: "Pisang",
+                origin: "Tropis",
+                category: "snack",
+                effectiveness: "A",
+                ingredients: ["Pisang"],
+                calories: 105,
+                protein: 1,
+                fat: 0,
+                scientificFact: "Kombinasi glukosa alami, potasium dan vitamin B6 untuk energi cepat (Studi: PLOS ONE 2012)",
+                image: ""
+            },
+
+            {
+                id: 50,
+                name: "Kacang Almond",
+                origin: "Timur Tengah",
+                category: "snack",
+                effectiveness: "A",
+                ingredients: ["Kacang Almond"],
+                calories: 160,
+                protein: 6,
+                fat: 14,
+                scientificFact: "Magnesium dan lemak sehat bantu produksi energi seluler (Studi: Journal of Trace Elements in Medicine and Biology 2015)",
+                image: "Aset/kacangalmon.jpg"
+            },
+
+            {
+                id: 51,
+                name: " Roti Gandum Panggang + Selai Kacang",
+                origin: "Barat",
+                category: "snack",
+                effectiveness: "A",
+                ingredients: ["Roti Gandum", "Selai Kacang"],
+                calories: 210,
+                protein: 7,
+                fat: 10,
+                scientificFact: " Kombinasi karbohidrat kompleks dan protein mendukung keseimbangan energi (Studi: Appetite 2017)",
+                image: ""
+            },
+
+            {
+                id: 52,
+                name: " Roti Gandum Panggang + Selai Kacang",
+                origin: "Barat",
+                category: "snack",
+                effectiveness: "A",
+                ingredients: ["Roti Gandum", "Selai Kacang"],
+                calories: 210,
+                protein: 7,
+                fat: 10,
+                scientificFact: " Kombinasi karbohidrat kompleks dan protein mendukung keseimbangan energi (Studi: Appetite 2017)",
+                image: ""
+            },
+
+            {
+                id: 53,
+                name: "Jus Bi",
+                origin: "Eropa",
+                category: "drink",
+                effectiveness: "B",
+                ingredients: ["Bit", "Air"],
+                calories: 70,
+                protein: 2,
+                fat: 0,
+                scientificFact: "Nitrat alami meningkatkan oksigenasi sel (Studi: Journal of the International Society of Sports Nutrition 2017)",
+                image: ""
+            },
+
+            {
+                id: 54,
+                name: "Smoothie Pisang & Bayam",
+                origin: "Global",
+                category: "drink",
+                effectiveness: "B",
+                ingredients: ["Pisang", "Bayam", "Susu Nabati"],
+                calories: 130,
+                protein: 3,
+                fat: 2,
+                scientificFact: "Kombinasi zat besi dan vitamin C bantu produksi energi dan transportasi oksigen (Studi: Nutrition Reviews 2013)",
+                image: ""
+            },
+
+            {
+                id: 55,
+                name: "Air Kelapa",
+                origin: "Tropis",
+                category: "drink",
+                effectiveness: "B",
+                ingredients: ["Air Kelapa Murni"],
+                calories: 45,
+                protein: 0,
+                fat: 0,
+                scientificFact: "Elektrolit alami bantu hidrasi dan cegah kelelahan akibat dehidrasi (Studi: Journal of Physiological Anthropology 2012)",
+                image: ""
+            },
+
+            {
+                id: 56,
+                name: "Kopi Hitam (Moderate)",
+                origin: "Tropis",
+                category: "drink",
+                effectiveness: "A",
+                ingredients: ["Biji Kopi", "Air"],
+                calories: 2,
+                protein: 0,
+                fat: 0,
+                scientificFact: "Kafein meningkatkan kewaspadaan dan fungsi kognitif (Studi: Food and Chemical Toxicology 2016)",
+                image: ""
+            },
+
+            {
+                id: 57,
+                name: "Tahu Kukus",
+                origin: "Asia",
+                category: "heavy",
+                effectiveness: "C",
+                ingredients: ["Tahu", "Kecap"],
+                calories: 150,
+                protein: 15,
+                fat: 8,
+                scientificFact: " Protein kedelai mengandung fitoestrogen penyeimbang mood (Studi: Journal of the American College of Nutrition 2016)",
+                image: ""
+            },
+
+            {
+                id: 58,
+                name: "Ayam Panggang + Sayur Panggang",
+                origin: "Asia",
+                category: "heavy",
+                effectiveness: "A",
+                ingredients: ["Dada Ayam", "Paprika", "Zucchini"],
+                calories: 370,
+                protein: 28,
+                fat: 15,
+                scientificFact: " Protein hewani meningkatkan sintesis serotonin dan dopamin (Studi: Frontiers in Nutrition 2021)",
+                image: ""
+            },
+
+            {
+                id: 59,
+                name: "Nasi Shirataki + Tempe",
+                origin: "Asia Tenggara",
+                category: "heavy",
+                effectiveness: "B",
+                ingredients: ["Nasi Shirataki", "Tempe",],
+                calories: 240,
+                protein: 16,
+                fat: 9,
+                scientificFact: "Prebiotik pada shirataki + probiotik tempe bantu sumbu usus-otak (Studi: Nutrients 2019)",
+                image: ""
+            },
+
+            {
+                id: 60,
+                name: "Roti Gandum Isi Telur Alpukat",
+                origin: "Amerika",
+                category: "heavy",
+                effectiveness: "B",
+                ingredients: ["Roti Gandum", "Telur", "Alpukat"],
+                calories: 340,
+                protein: 14,
+                fat: 18,
+                scientificFact: "Lemak sehat dan vitamin B mendukung kestabilan mood tinggi (Studi: Psychopharmacology 2015)",
+                image: ""
+            },
+
+            {
+                id: 61,
+                name: "Biji Labu",
+                origin: "Amerika",
+                category: "snack",
+                effectiveness: "A",
+                ingredients: ["Roti Gandum", "Telur", "Alpukat"],
+                calories: 160,
+                protein: 9,
+                fat: 13,
+                scientificFact: " Kaya magnesium untuk relaksasi otot dan saraf (Studi: Nutrients 2018)",
+                image: ""
+            },
+
+            {
+                id: 62,
+                name: "Keju Cottage",
+                origin: "Eropa",
+                category: "snack",
+                effectiveness: "C",
+                ingredients: ["Roti Gandum", "Telur", "Alpukat"],
+                calories: 120,
+                protein: 14,
+                fat: 5,
+                scientificFact: "Kasein melepaskan asam amino penenang secara bertahap (Studi: Journal of Sleep Research 2015)",
+                image: ""
+            },
+
+            {
+                id: 63,
+                name: "Cokelat Hitam + Kacang Mede",
+                origin: "Internasional",
+                category: "snack",
+                effectiveness: "A",
+                ingredients: ["Kakao", "Kacang Mede",],
+                calories: 180,
+                protein: 4,
+                fat: 14,
+                scientificFact: "Magnesium dan feniletilamin mendukung suasana hati tinggi (Studi: Nutrients 2020)",
+                image: ""
+            },
+
+            {
+                id: 64,
+                name: "Teh Peppermint ",
+                origin: "Eropa",
+                category: "drink",
+                effectiveness: "A",
+                ingredients: ["Pappermint", "Air",],
+                calories: 5,
+                protein: 0,
+                fat: 0,
+                scientificFact: "Menthol menenangkan sistem pencernaan yang terhubung dengan saraf (Studi: Journal of Clinical Biochemistry and Nutrition 2018)",
+                image: ""
+            },
+
+            {
+                id: 65,
+                name: "Smoothie Pisang-Almond",
+                origin: "Internasional",
+                category: "drink",
+                effectiveness: "B",
+                ingredients: ["Pisang", "Almond", "Susu"],
+                calories: 250,
+                protein: 8,
+                fat: 12,
+                scientificFact: " Triptofan dan magnesium untuk relaksasi alami (Studi: Journal of Sleep Research 2015)",
+                image: ""
+            },
+
+            {
+                id: 66,
+                name: "Teh Rosella (Hibiscus Tea)",
+                origin: "Afrika",
+                category: "drink",
+                effectiveness: "A",
+                ingredients: ["Kelopoak Rosella", "Air",],
+                calories: 30,
+                protein: 0,
+                fat: 0,
+                scientificFact: "Antioksidan flavonoid mendukung sistem saraf saat mood tinggi (Studi: Journal of Ethnopharmacology 2015)",
+                image: ""
+            },
+
+            {
+                id: 67,
+                name: "Susu Cokelat Dingin",
+                origin: "Barat",
+                category: "drink",
+                effectiveness: "B",
+                ingredients: ["Susu", "Cokelat Bubuk",],
+                calories: 190,
+                protein: 8,
+                fat: 5,
+                scientificFact: " Karbohidrat + triptofan menstabilkan emosi positif (Studi: European Journal of Clinical Nutrition 2012)",
+                image: "Aset/coklatdingin.jpg"
+            },
+
+            {
+                id: 68,
+                name: "Infused Water Lemon-Min",
+                origin: "Internasional",
+                category: "drink",
+                effectiveness: "B",
+                ingredients: ["Lemon", "Daun Mint", "Air"],
+                calories: 10,
+                protein: 0,
+                fat: 0,
+                scientificFact: " Vitamin C dan aroma mint segarkan pikiran dan turunkan overstimulasi (Studi: International Journal of Neuroscience 2014)",
+                image: "Aset/infusedwater.jpg"
+            },
+        ];
+
+        // User state
+        let currentUser = null;
+        let currentMood = null;
+        let userFavorites = [];
+
+        // DOM Elements
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+        const detectMoodBtn = document.getElementById('detect-mood-btn');
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+        const profileModal = document.getElementById('profile-modal');
+        const foodModal = document.getElementById('food-modal');
+        const closeModals = document.querySelectorAll('.close-modal');
+        const showRegister = document.getElementById('show-register');
+        const showLogin = document.getElementById('show-login');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const foodGrid = document.getElementById('food-grid');
+        const favoritesGrid = document.getElementById('favorites-grid');
+        const moodOptions = document.querySelectorAll('.mood-option');
+        const foodCategories = document.querySelectorAll('.food-category');
+        const logoutBtn = document.getElementById('logout-btn');
+        const addFavoriteBtn = document.getElementById('add-favorite-btn');
+
+        // Event Listeners
+        loginBtn.addEventListener('click', () => {
+            if (currentUser) {
+                showProfileModal();
+            } else {
+                loginModal.style.display = 'flex';
+            }
+        });
+
+        registerBtn.addEventListener('click', () => {
+            registerModal.style.display = 'flex';
+        });
+
+        detectMoodBtn.addEventListener('click', () => {
+            document.querySelector('#mood').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        showRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.style.display = 'none';
+            registerModal.style.display = 'flex';
+        });
+
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerModal.style.display = 'none';
+            loginModal.style.display = 'flex';
+        });
+
+        closeModals.forEach(btn => {
+            btn.addEventListener('click', () => {
+                loginModal.style.display = 'none';
+                registerModal.style.display = 'none';
+                profileModal.style.display = 'none';
+                foodModal.style.display = 'none';
+            });
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) loginModal.style.display = 'none';
+            if (e.target === registerModal) registerModal.style.display = 'none';
+            if (e.target === profileModal) profileModal.style.display = 'none';
+            if (e.target === foodModal) foodModal.style.display = 'none';
+        });
+
+        moodOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                currentMood = option.dataset.mood;
+                moodOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+
+                // In a real app, we would filter foods by mood
+                renderFoods(foods);
+                document.querySelector('#food').scrollIntoView({ behavior: 'smooth' });
+
+                if (currentUser) {
+                    // Save mood to user profile
+                    alert(`Mood Anda (${option.dataset.mood}) telah disimpan!`);
+                }
+            });
+        });
+
+        foodCategories.forEach(category => {
+            category.addEventListener('click', () => {
+                foodCategories.forEach(cat => cat.classList.remove('active'));
+                category.classList.add('active');
+
+                const categoryType = category.dataset.category;
+                let filteredFoods = foods;
+
+                if (categoryType !== 'all') {
+                    filteredFoods = foods.filter(food => food.category === categoryType);
+                }
+
+                renderFoods(filteredFoods);
+            });
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            // In a real app, this would be an API call
+            if (email && password) {
+                currentUser = {
+                    username: email.split('@')[0],
+                    email: email,
+                    favorites: []
+                };
+
+                loginModal.style.display = 'none';
+                loginBtn.textContent = 'Profil';
+                alert('Login berhasil!');
+            } else {
+                alert('Email dan password harus diisi!');
+            }
+        });
+
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirm = document.getElementById('register-confirm').value;
+
+            if (password !== confirm) {
+                alert('Password dan konfirmasi password tidak cocok!');
+                return;
+            }
+
+            if (username && email && password) {
+                currentUser = {
+                    username: username,
+                    email: email,
+                    favorites: []
+                };
+
+                registerModal.style.display = 'none';
+                loginBtn.textContent = 'Profil';
+                alert('Registrasi berhasil! Anda telah login.');
+            } else {
+                alert('Semua field harus diisi!');
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            currentUser = null;
+            profileModal.style.display = 'none';
+            loginBtn.textContent = 'Login';
+            alert('Anda telah logout.');
+        });
+
+        addFavoriteBtn.addEventListener('click', () => {
+            if (!currentUser) {
+                alert('Silakan login terlebih dahulu untuk menambahkan favorit!');
+                foodModal.style.display = 'none';
+                loginModal.style.display = 'flex';
+                return;
+            }
+
+            const foodId = parseInt(addFavoriteBtn.dataset.foodId);
+            const food = foods.find(f => f.id === foodId);
+
+            if (!currentUser.favorites.some(f => f.id === foodId)) {
+                currentUser.favorites.push(food);
+                addFavoriteBtn.innerHTML = '<i class="fas fa-heart"></i> Favorit';
+                alert(`${food.name} telah ditambahkan ke favorit!`);
+            } else {
+                currentUser.favorites = currentUser.favorites.filter(f => f.id !== foodId);
+                addFavoriteBtn.innerHTML = '<i class="far fa-heart"></i> Tambah Favorit';
+                alert(`${food.name} telah dihapus dari favorit!`);
+            }
+
+            if (profileModal.style.display === 'flex') {
+                renderFavorites();
+            }
+        });
+
+        // Functions
+        function renderFoods(foodList) {
+            foodGrid.innerHTML = '';
+
+            foodList.forEach(food => {
+                const foodCard = document.createElement('div');
+                foodCard.className = 'food-card';
+                foodCard.innerHTML = `
+                    <div class="food-image" style="background-image: url('${food.image}')"></div>
+                    <div class="food-content">
+                        <span class="effectiveness ${food.effectiveness}">Kategori ${food.effectiveness}</span>
+                        <h3 class="food-title">${food.name}</h3>
+                        <p class="food-origin">${food.origin}</p>
+                        <div class="food-nutrition">
+                            <span>${food.calories} kalori</span>
+                            <span>${food.protein}g protein</span>
+                            <span>${food.fat}g lemak</span>
+                        </div>
+                        <p class="food-description">${food.scientificFact.substring(0, 100)}...</p>
+                        <div class="food-actions">
+                            <button class="view-detail" data-id="${food.id}">Lihat Detail</button>
+                            <button class="add-favorite" data-id="${food.id}">
+                                <i class="${currentUser && currentUser.favorites.some(f => f.id === food.id) ? 'fas' : 'far'} fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                foodGrid.appendChild(foodCard);
+            });
+
+            // Add event listeners to the new buttons
+            document.querySelectorAll('.view-detail').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const foodId = parseInt(e.target.dataset.id);
+                    showFoodDetail(foodId);
+                });
+            });
+
+            document.querySelectorAll('.add-favorite').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const foodId = parseInt(e.target.parentElement.dataset.id);
+                    toggleFavorite(foodId);
+                });
+            });
+        }
+
+        function showFoodDetail(foodId) {
+            const food = foods.find(f => f.id === foodId);
+            if (!food) return;
+
+            document.getElementById('detail-food-image').style.backgroundImage = `url('${food.image}')`;
+            document.getElementById('detail-effectiveness').className = `effectiveness ${food.effectiveness}`;
+            document.getElementById('detail-effectiveness').textContent = `Kategori ${food.effectiveness}`;
+            document.getElementById('detail-food-title').textContent = food.name;
+            document.getElementById('detail-food-origin').textContent = food.origin;
+            document.getElementById('detail-calories').textContent = `${food.calories} kalori`;
+            document.getElementById('detail-protein').textContent = `${food.protein}g protein`;
+            document.getElementById('detail-fat').textContent = `${food.fat}g lemak`;
+
+            const ingredientsList = document.getElementById('detail-ingredients');
+            ingredientsList.innerHTML = '';
+            food.ingredients.forEach(ing => {
+                const li = document.createElement('li');
+                li.textContent = ing;
+                ingredientsList.appendChild(li);
+            });
+
+            document.getElementById('detail-scientific').textContent = food.scientificFact;
+
+            addFavoriteBtn.dataset.foodId = food.id;
+            if (currentUser && currentUser.favorites.some(f => f.id === food.id)) {
+                addFavoriteBtn.innerHTML = '<i class="fas fa-heart"></i> Favorit';
+            } else {
+                addFavoriteBtn.innerHTML = '<i class="far fa-heart"></i> Tambah Favorit';
+            }
+
+            foodModal.style.display = 'flex';
+        }
+
+        function toggleFavorite(foodId) {
+            if (!currentUser) {
+                alert('Silakan login terlebih dahulu untuk menambahkan favorit!');
+                loginModal.style.display = 'flex';
+                return;
+            }
+
+            const food = foods.find(f => f.id === foodId);
+            const favoriteBtn = document.querySelector(`.add-favorite[data-id="${foodId}"] i`);
+
+            if (!currentUser.favorites.some(f => f.id === foodId)) {
+                currentUser.favorites.push(food);
+                favoriteBtn.className = 'fas fa-heart';
+                alert(`${food.name} telah ditambahkan ke favorit!`);
+            } else {
+                currentUser.favorites = currentUser.favorites.filter(f => f.id !== foodId);
+                favoriteBtn.className = 'far fa-heart';
+                alert(`${food.name} telah dihapus dari favorit!`);
+            }
+
+            if (profileModal.style.display === 'flex') {
+                renderFavorites();
+            }
+        }
+
+        function showProfileModal() {
+            if (!currentUser) return;
+
+            document.getElementById('profile-username').textContent = currentUser.username;
+            document.getElementById('profile-email').textContent = currentUser.email;
+            document.getElementById('favorites-count').textContent = currentUser.favorites.length;
+            document.getElementById('mood-count').textContent = currentMood ? 1 : 0;
+
+            renderFavorites();
+            profileModal.style.display = 'flex';
+        }
+
+        function renderFavorites() {
+            favoritesGrid.innerHTML = '';
+
+            if (currentUser.favorites.length === 0) {
+                favoritesGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Belum ada makanan favorit</p>';
+                return;
+            }
+
+            currentUser.favorites.forEach(food => {
+                const foodCard = document.createElement('div');
+                foodCard.className = 'food-card';
+                foodCard.innerHTML = `
+                    <div class="food-image" style="background-image: url('${food.image}')"></div>
+                    <div class="food-content">
+                        <span class="effectiveness ${food.effectiveness}">Kategori ${food.effectiveness}</span>
+                        <h3 class="food-title">${food.name}</h3>
+                        <p class="food-origin">${food.origin}</p>
+                        <div class="food-nutrition">
+                            <span>${food.calories} kalori</span>
+                            <span>${food.protein}g protein</span>
+                            <span>${food.fat}g lemak</span>
+                        </div>
+                        <div class="food-actions">
+                            <button class="view-detail" data-id="${food.id}">Lihat Detail</button>
+                            <button class="remove-favorite" data-id="${food.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                favoritesGrid.appendChild(foodCard);
+            });
+
+            // Add event listeners to the new buttons
+            document.querySelectorAll('.view-detail').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const foodId = parseInt(e.target.dataset.id);
+                    foodModal.style.display = 'none';
+                    showFoodDetail(foodId);
+                });
+            });
+
+            document.querySelectorAll('.remove-favorite').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const foodId = parseInt(e.target.parentElement.dataset.id);
+                    currentUser.favorites = currentUser.favorites.filter(f => f.id !== foodId);
+                    renderFavorites();
+                    document.getElementById('favorites-count').textContent = currentUser.favorites.length;
+                });
+            });
+        }
+        // Tambahkan di JavaScript
+        const searchInput = document.getElementById('search-input');
+        const searchBtn = document.getElementById('search-btn');
+
+        searchBtn.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') performSearch();
+        });
+
+        function performSearch() {
+            const searchTerm = searchInput.value.toLowerCase();
+            if (searchTerm.trim() === '') {
+                renderFoods(foods);
+                return;
+            }
+
+            const filteredFoods = foods.filter(food =>
+                food.name.toLowerCase().includes(searchTerm) ||
+                food.ingredients.some(ing => ing.toLowerCase().includes(searchTerm))
+            );
+
+            renderFoods(filteredFoods);
+        }
+        
+        // Initialize
+        renderFoods(foods);
+    </script>
+
+</body>
+
+</html>
